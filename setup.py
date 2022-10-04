@@ -9,7 +9,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     url='https://https://github.com/neongm/CliArgTools',
-    keywords='cli arguments',
+    keywords='cli arguments parsing parser command line',
     install_requires=[
       ],
 )
