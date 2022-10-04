@@ -1,3 +1,4 @@
+from email.policy import default
 from sys import argv 
 
 
@@ -33,11 +34,15 @@ def getArgByFlag(flag: str, optional:bool = False, defaultValue:str = None,
     return argValue
 
 
-def isFlagPresent(flag, optional=False, errorMessage=None, defaultErrors:bool = True):
+def isFlagPresent(flag, optional=True, errorMessage=None, defaultErrors:bool = True):
     if flag in argv: return True
     if optional: return False
-    if errorMessage or defaultErrors:
+    if not errorMessage and defaultErrors:
+        print(f'Required flag {flag} not provided')
+        return False
+    if errorMessage:
         print(errorMessage)
+        return False
 
 
 def getAllArgs(): 
