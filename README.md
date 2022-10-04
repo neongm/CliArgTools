@@ -5,7 +5,7 @@ CliArgTools allows you to easily get the command line arguments, check if the fl
 
 ##### Code example:
 ```python
-from src import cliargtools
+import cliargtools
 
 FILEPATH = cliargtools.getArgByFlag('-fp')  # will add required flag -fp
 DEBUG = cliargtools.isFlagPresent('-debug') # will check for optional flag -debug
