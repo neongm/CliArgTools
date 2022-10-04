@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='CliArgTools',
-    version='1.1',
+    version='1.2',
     license='MIT',
     description="Small and easy to use library for working with CLI arguments",
     long_description=long_description,
@@ -14,6 +14,6 @@ setup(
     author_email='chura2013c@gmail.com',
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    url='https://https://github.com/neongm/CliArgTools',
+    url='https://github.com/neongm/CliArgTools',
     keywords='cli arguments parsing parser command line',
 )
