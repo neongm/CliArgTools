@@ -5,18 +5,18 @@ CliArgTools allows you to easily get the command line arguments, check if the fl
 
 ##### Code example:
 ```python
-import cliargtools
+from src import cliargtools
 
 FILEPATH = cliargtools.getArgByFlag('-fp')  # will add required flag -fp
 DEBUG = cliargtools.isFlagPresent('-debug') # will check for optional flag -debug
 ALL_ARGS = cliargtools.getAllArgs()         # will return all the arguments given
 
 if (DEBUG): 
-    print("some filepath: " + FILEPATH)     # printing given filepath  and all the arguments
-    print("cli arguments: " + ALL_ARGS)     # if -debug argument is present
+    print("debug: " + str(DEBUG))
+    print("some filepath: " + FILEPATH)                 # printing given filepath  and all the arguments
+    print("cli arguments: " + ' '.join(ALL_ARGS))       # if -debug argument is present
 else: 
-    print("Sadly, nothing to debug, but the program still works!")
-
+    print("Sadly, no debug, but the program still works!")
 ```
 
 ------
