@@ -1,7 +1,10 @@
 # CliArgTools
 -----
+
+### Use pip to install the CliArgTools:  ```pip install CliArgTools```
 Small and easy to use cross-platform Python library for working with command line arguments.
 CliArgTools allows you to easily get the command line arguments, check if the flags are provided and generate and/or output error message if cli arguments given by the user is incorrect.
+
 
 ##### Code example:
 ```python
