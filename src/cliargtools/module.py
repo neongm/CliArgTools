@@ -3,42 +3,55 @@ import os.path
 from types import NoneType
 
 
-def getArgByFlag(flag: str, optional:bool = False, defaultValue:str = None, 
+def getArgByFlag(flag: str | list | tuple, optional:bool = False, defaultValue:str = None, 
                  errorMessage:str = None, errorMessageIfNoArg:str = None, 
                  errorMessageIfNoFlag:str = None, defaultErrors:bool = True):
+    # initiate stuff and convert types
     argValue = defaultValue
     argFlagIndex = None
     flagPresent = False
     argPresent = False
     
-    try:
-        argFlagIndex = argv.index(flag)
-        flagPresent = True
-        argValue = argv[argFlagIndex+1]
-        argPresent = True
+    if type(flag) is str: flag = [flag]
+    
+    for _flg in flag: 
+        try:
+            argFlagIndex = argv.index(_flg)
+            flagPresent = True
+            argValue = argv[argFlagIndex+1]
+            argPresent = True
+            return argValue
+        except: 
+            pass
         
-    except:
-
-        if optional: return argValue
-        if defaultErrors: # we don't really need to do it if there is no error in the first place, right?
-            if errorMessage == None: 
-                errorMessage = f'Command line argument error: {flag} <value>'
-            if errorMessageIfNoArg == None: 
-                errorMessageIfNoArg = 'Argument value not provided'
-            if errorMessageIfNoFlag == None and not optional: 
-                errorMessageIfNoFlag = f'Required flag {flag} not provided'
-        if errorMessage: print(errorMessage)
-        if flagPresent and not argPresent and errorMessageIfNoArg: print(errorMessageIfNoArg)
-        if not flagPresent and not optional and errorMessageIfNoFlag: print(errorMessageIfNoFlag)
+    if optional: return argValue
+    if defaultErrors: # we don't really need to do it if there is no error in the first place, right?
+        if errorMessage == None: 
+            errorMessage = f'Command line argument error: <{" | ".join(flag)}> <value>'
+        if errorMessageIfNoArg == None: 
+            errorMessageIfNoArg = f'Argument value  for flag <{" | ".join(flag)}> not provided'
+        if errorMessageIfNoFlag == None and not optional: 
+            errorMessageIfNoFlag = f'Required flag: <{" | ".join(flag)}> not provided'
+    if errorMessage: print(errorMessage)
+    if flagPresent and not argPresent and errorMessageIfNoArg: print(errorMessageIfNoArg)
+    if not flagPresent and not optional and errorMessageIfNoFlag: print(errorMessageIfNoFlag)
 
     return argValue
 
 
-def isFlagPresent(flag, optional=True, errorMessage=None, defaultErrors:bool = True):
-    if flag in argv: return True
+def isFlagPresent(flag: str | list | tuple, optional:bool=True, errorMessage:str=None,
+                  defaultErrors:bool = True):
+    
+    # convert types for less branching
+    if type(flag) is str: flag = [flag]
+    # check if it is present:
+    for _flg in flag:
+        if _flg in argv: return True
+    
+    # if there is no flag:
     if optional: return False
     if not errorMessage and defaultErrors:
-        print(f'Required flag {flag} not provided')
+        print(f'Required flag: <{" | ".join(flag)}> not provided')
         return False
     if errorMessage:
         print(errorMessage)
@@ -48,15 +61,17 @@ def isFlagPresent(flag, optional=True, errorMessage=None, defaultErrors:bool = T
 def isPathValid(path:str, expectedFileExtensions: str | list | tuple = None,
                 errorMessageWrongType: str=None, errorMessagePathInvalid: str=None,
                 defaultErrors: bool=True):
-    
     # check if the filepath was even passed first
-    if type(path) is NoneType: return False 
-    
+    if type(path) is NoneType: return False
+    # convert stuff so we have less branching
+    if type(expectedFileExtensions) is str: expectedFileExtensions = tuple([expectedFileExtensions])
+    elif type(expectedFileExtensions) is list: expectedFileExtensions = tuple(expectedFileExtensions)
+    # actual request to the os
     pathValid = os.path.exists(path)
     
     # if file doesn't exist
     if not pathValid: 
-        if defaultErrors:
+        if defaultErrors and errorMessagePathInvalid==None:
             print(f"Invalid path: {path}")
         elif errorMessagePathInvalid is not None: 
             print(errorMessagePathInvalid)
@@ -66,11 +81,8 @@ def isPathValid(path:str, expectedFileExtensions: str | list | tuple = None,
     if expectedFileExtensions == None: return pathValid
     if path.endswith(expectedFileExtensions): return pathValid
     else:  
-        if defaultErrors:
-            if type(expectedFileExtensions) is str: 
-                print(f"Expected file path extension type: {expectedFileExtensions}") 
-            else: 
-                print(f"Expected file path extension type: {' '.join(expectedFileExtensions)}") 
+        if defaultErrors and errorMessageWrongType==None:
+            print(f"Expected file path extension type: {' or '.join(expectedFileExtensions)}") 
         else:
             print(errorMessageWrongType)
             
