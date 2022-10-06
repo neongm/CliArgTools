@@ -1,10 +1,11 @@
 from sys import argv 
+import os.path
+from types import NoneType
 
 
 def getArgByFlag(flag: str, optional:bool = False, defaultValue:str = None, 
                  errorMessage:str = None, errorMessageIfNoArg:str = None, 
                  errorMessageIfNoFlag:str = None, defaultErrors:bool = True):
-    
     argValue = defaultValue
     argFlagIndex = None
     flagPresent = False
@@ -42,6 +43,38 @@ def isFlagPresent(flag, optional=True, errorMessage=None, defaultErrors:bool = T
     if errorMessage:
         print(errorMessage)
         return False
+
+
+def isPathValid(path:str, expectedFileExtensions: str | list | tuple = None,
+                errorMessageWrongType: str=None, errorMessagePathInvalid: str=None,
+                defaultErrors: bool=True):
+    
+    # check if the filepath was even passed first
+    if type(path) is NoneType: return False 
+    
+    pathValid = os.path.exists(path)
+    
+    # if file doesn't exist
+    if not pathValid: 
+        if defaultErrors:
+            print(f"Invalid path: {path}")
+        elif errorMessagePathInvalid is not None: 
+            print(errorMessagePathInvalid)
+        return pathValid
+    
+    # if file exists check for type stuff
+    if expectedFileExtensions == None: return pathValid
+    if path.endswith(expectedFileExtensions): return pathValid
+    else:  
+        if defaultErrors:
+            if type(expectedFileExtensions) is str: 
+                print(f"Expected file path extension type: {expectedFileExtensions}") 
+            else: 
+                print(f"Expected file path extension type: {' '.join(expectedFileExtensions)}") 
+        else:
+            print(errorMessageWrongType)
+            
+    return pathValid
 
 
 def getAllArgs(): 
