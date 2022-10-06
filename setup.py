@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='CliArgTools',
-    version='1.2',
+    version='1.3',
     license='MIT',
     description="Small and easy to use library for working with CLI arguments",
     long_description=long_description,
