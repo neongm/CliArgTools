@@ -87,7 +87,7 @@ Can be used to check if the flag is given by the user.
 - ```defaultErrors: bool = True``` - specifies if default errors will be printed, ```True``` by default.
 
 ##### returns:  
-- ```bool``` - ```True``` or ```False``` value where True means that argument was given by the user, and ```False``` means that it is missing.
+- ```bool``` - ```True``` or ```False``` value where ```True``` means that argument was given by the user, and ```False``` means that it is missing.
 
 
 By default the flag is optional, it means that no error missage will be printed if the flag is missing and ```False``` will be returned.
@@ -116,11 +116,11 @@ Can be used to check if the path is valid and/or file extension matches required
 ##### optional:
 - ```expectedFileExtensions: str | list | tuple``` string or array/tuple of strings specifying the expected file extensions
 - ```errorMessageWrongType: str``` - will be printed if path exists but extension doesn't match any of specified
-- ```errorMessagePathInvalid: str``` - swill be printed if path doesn't exist
+- ```errorMessagePathInvalid: str``` - will be printed if given path doesn't exist
 - ```defaultErrors: bool: true```- specifies if default errors will be printed, ```True``` by default.
 
 ##### returns:  
-- ```bool``` - ```True``` or ```False``` value where True means that path exists and file extension matches specified(if given), and ```False``` means that path is invalid or file extension doesn't match any of the specified.
+- ```bool``` - ```True``` or ```False``` value where ```True``` means that path exists and file extension matches specified(if given), and ```False``` means that path is invalid or file extension doesn't match any of the specified.
 
 
 Default error messages can be disabled by setting ```defaultErrors``` to ```False```
