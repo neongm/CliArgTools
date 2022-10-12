@@ -1,9 +1,8 @@
 from sys import argv 
 import os.path
-from types import NoneType
+from typing import Union
 
-
-def getArgByFlag(flag: str | list | tuple, optional:bool = False, defaultValue:str = None, 
+def getArgByFlag(flag: Union[str, list, tuple], optional:bool = False, defaultValue:str = None, 
                  errorMessage:str = None, errorMessageIfNoArg:str = None, 
                  errorMessageIfNoFlag:str = None, defaultErrors:bool = True):
     # initiate stuff and convert types
@@ -39,7 +38,7 @@ def getArgByFlag(flag: str | list | tuple, optional:bool = False, defaultValue:s
     return argValue
 
 
-def isFlagPresent(flag: str | list | tuple, optional:bool=True, errorMessage:str=None,
+def isFlagPresent(flag: Union[str, list, tuple], optional:bool=True, errorMessage:str=None,
                   defaultErrors:bool = True):
     
     # convert types for less branching
@@ -58,11 +57,11 @@ def isFlagPresent(flag: str | list | tuple, optional:bool=True, errorMessage:str
         return False
 
 
-def isPathValid(path:str, expectedFileExtensions: str | list | tuple = None,
+def isPathValid(path:str, expectedFileExtensions: Union[str, list, tuple] = None,
                 errorMessageWrongType: str=None, errorMessagePathInvalid: str=None,
                 defaultErrors: bool=True):
     # check if the filepath was even passed first
-    if type(path) is NoneType: return False
+    if type(path) is type(None): return False
     # convert stuff so we have less branching
     if type(expectedFileExtensions) is str: expectedFileExtensions = tuple([expectedFileExtensions])
     elif type(expectedFileExtensions) is list: expectedFileExtensions = tuple(expectedFileExtensions)
